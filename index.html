@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="videoApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,35 +7,37 @@
     <title>Video Player</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/darkly.css">
+    <link rel="stylesheet" href="video-player.css">
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
 </head>
-<body>
+<body ng-controller="VideoController">
     
-  <div class="embed-responsive embed-responsive-16by9">
-     <video id="videoElement" width="100%" height="100%" src="video/Background.mp4"></video>
-  </div>
-
-  <div class="btn-group btn-group-justified" role="group">
-    <a onclick="playVideo()" class="btn btn-default">Play</a>
-    <a onclick="pauseVideo()" class="btn btn-default">Pause</a>
-    <a onclick="stopVideo()" class="btn btn-default">Stop</a>
-  </div>
+    <div id="fullPlayer" class="unselectable ng-cloak" ng-mousemove="mouseMoving($event)" ng-mouseup="dragStop($event)">
+        <div class="embed-responsive embed-responsive-16by9">
+            <video id="VideoElement" ng-click="togglePlay()" width="100%" height="100%" src="{{videoSource}}"></video>
+            <div id="bigPlayButton" ng-click="togglePlay()" ng-hide="videoPlaying" class="well" style="margin-top:{{vidHeightCenter}}px;margin-left:{{vidWidthCenter}}px;"><span class="glyphicon glyphicon-play"></span></div>
+            <div id="videoTitle" ng-hide="videoPlaying">{{titleDisplay}}</div>
+        </div>
+        <div id="progressMeterFull" ng-click="videoSeek($event)">
+            <div id="progressMeter" ng-click="videoSeek($event)" style="width:{{scrubLeft+7}}px"></div>
+        </div>
+        <div id="thumbScrubber" style="top:{{scrubTop}}px;left:{{scrubLeft-1}}px;" ng-mousedown="dragStart($event)"></div>
+        <div id="playerToolBar">
+            <a id="playBtn" ng-click="togglePlay()" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></a>
+            <a id="muteBtn" ng-click="toggleMute()" class="btn btn-default"><span class="glyphicon glyphicon-volume-up"></span></a>
+            <span id="videoTime">{{currentTime | time}} / {{totalTime | time}}</span>
+        </div>
+    </div>
     
-  <script type="text/javascript">
-    var v = document.getElementById("videoElement");
-
-    function playVideo(){
-    	v.play();
-    }
-    function pauseVideo(){
-    	v.pause();
-    }
-    function stopVideo(){
-    	v.pause()
-    	v.currentTime = 0;
-    }
-  </script>
-
+    <script>
+        var videoSource = "video/Background.mp4";
+        var titleDisplay = "";
+        var videoDescription = "caption";
+    </script>
+    
+    <script src="video-app.js"></script>
+    
 </body>
 </html>
