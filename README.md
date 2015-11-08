@@ -13,4 +13,4 @@ $ open index.html
 scroll down and press play
 
 
-![app](http://i.imgur.com/ZEop7di.png)
+![app](http://i.imgur.com/tc1DDg6.png)
